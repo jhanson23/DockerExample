@@ -3,8 +3,6 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - echo $AWS_DEFAULT_REGION
       - sudo mkdir /usr/local/awscliv2
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip -q awscliv2.zip
@@ -12,6 +10,8 @@ phases:
         sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/awscliv2 --update
       - export PATH="/usr/local/bin:$PATH"
       - aws --version
+      - echo Logging in to Amazon ECR...
+      - echo $AWS_DEFAULT_REGION
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
